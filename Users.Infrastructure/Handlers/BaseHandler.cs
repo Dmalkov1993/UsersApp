@@ -7,7 +7,7 @@ using FluentValidation.Results;
 
 namespace UsersApp.Infrastructure.Handlers
 {
-    public class BaseHandler
+    public abstract class BaseHandler
     {
         protected BadRequestObjectResult BadRequest(string badRequestMessage)
         {
@@ -17,7 +17,7 @@ namespace UsersApp.Infrastructure.Handlers
         protected BadRequestObjectResult BadRequest(ValidationResult validationResult)
         {
             var message = $"Следующие реквизиты не прошли валидацию: " +
-                $"{string.Join(" ", validationResult.Errors.Select(failure => failure.ErrorMessage))}";
+                $"{string.Join(", ", validationResult.Errors.Select(failure => failure.PropertyName))}";
 
             return new BadRequestObjectResult(message);
         }

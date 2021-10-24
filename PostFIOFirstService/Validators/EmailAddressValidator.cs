@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
+using FluentValidation.Validators;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace UsersApp.PostFIOFirstService.Validators
 {
@@ -11,6 +10,7 @@ namespace UsersApp.PostFIOFirstService.Validators
         public EmailAddressValidator()
         {
             RuleFor(emailAddress => emailAddress)
+                .NotNull()
                 .Must(emailAddress => IsValidEmail(emailAddress))
                 .WithName("emailAddress");
         }
@@ -31,6 +31,18 @@ namespace UsersApp.PostFIOFirstService.Validators
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Переопределение метода для того, чтобы в валидатор можно было передать null.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override ValidationResult Validate(ValidationContext<string> context)
+        {
+            return context.InstanceToValidate == null
+                ? new ValidationResult(new[] { new ValidationFailure("emailAddress", "Object cannot be null") })
+                : base.Validate(context);
         }
     }
 }
