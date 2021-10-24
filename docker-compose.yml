@@ -34,24 +34,6 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
-      
-  #
-  postfiofirstservice_api:
-    container_name: postfiofirstservice_api
-    depends_on:
-      - rabbit
-    build:
-        context: UsersApp.PostFIOFirstService/
-        dockerfile: ./Dockerfile
-    restart: always
-    networks:
-      - back-tier
-    environment:
-      - DOTNET_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://firstservice:5000
-    ports:
-      - "13048:5000"
-
 #
 networks:
   back-tier:
