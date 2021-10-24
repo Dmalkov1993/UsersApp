@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="FluentValidation" Version="10.3.4" />
     <PackageReference Include="MassTransit" Version="7.2.4-develop.283" />
     <PackageReference Include="MassTransit.AspNetCore" Version="7.2.4-develop.283" />

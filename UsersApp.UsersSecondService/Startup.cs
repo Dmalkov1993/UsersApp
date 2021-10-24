@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using System;
 using UsersApp.Infrastructure.Extensions;
+using UsersApp.UsersSecondService.MassTransitEntities;
 
 namespace UsersApp.UsersSecondService
 {
@@ -31,20 +32,41 @@ namespace UsersApp.UsersSecondService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Сервис №2",
+                    Title = "РЎРµСЂРІРёСЃ в„–2",
                     Version = "v1",
-                    Description = "Служит для записи в БД данных пользователя, пришедших из шины RabbitMQ." +
-                    "Также можно связать пользователя и организацию, а также получить пагинированные данные о пользователях.",
+                    Description = "РЎР»СѓР¶РёС‚ РґР»СЏ Р·Р°РїРёСЃРё РІ Р‘Р” РґР°РЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РїСЂРёС€РµРґС€РёС… РёР· С€РёРЅС‹ RabbitMQ." +
+                    "РўР°РєР¶Рµ РјРѕР¶РЅРѕ СЃРІСЏР·Р°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ Рё РѕСЂРіР°РЅРёР·Р°С†РёСЋ, Р° С‚Р°РєР¶Рµ РїРѕР»СѓС‡РёС‚СЊ РїР°РіРёРЅРёСЂРѕРІР°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏС….",
                 });
             });
 
+            // РќР°СЃС‚СЂРѕР№РєР° РєСЂРѕР»РёРєР°
+            services.AddMassTransit(configurator =>
+            {
+                configurator.UsingRabbitMq((context, factoryConfigurator) =>
+                {
+                    var rabbitMqSection = Configuration.GetSection("RabbitMQ");
+                    factoryConfigurator.Host(new Uri(rabbitMqSection.GetValue<string>("Host")),
+                        hostConfigurator =>
+                        {
+                            hostConfigurator.Username(rabbitMqSection.GetValue("Username", "guest"));
+                            hostConfigurator.Password(rabbitMqSection.GetValue("Password", "guest"));
+                        });
+                    factoryConfigurator.ReceiveEndpoint("CreateUserInDbQueue",
+                        endpointConfigurator => endpointConfigurator.Consumer<CreateUserInDbConsumer>());
+                    factoryConfigurator.ConfigureEndpoints(context);
+                });
+            });
+            services.AddMassTransitHostedService();
+
+            /*
             var rabbitMqSection = Configuration.GetSection("RabbitMQ");
             services.AddDefaultMassTransit(
                 host: rabbitMqSection.GetValue<string>("Host"),
                 username: rabbitMqSection.GetValue("Username", "guest"),
                 password: rabbitMqSection.GetValue("Username", "guest"));
+            */
 
-            // Nuget пакет - MediatR.Extensions.Microsoft.DependencyInjection
+            // Nuget РїР°РєРµС‚ - MediatR.Extensions.Microsoft.DependencyInjection
             services.AddMediatR(typeof(Startup));
         }
 

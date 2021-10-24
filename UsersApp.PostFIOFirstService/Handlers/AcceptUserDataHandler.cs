@@ -6,16 +6,23 @@ using UsersApp.PostFIOFirstService.RequestPayloads;
 using FluentValidation;
 using Serilog;
 using UsersApp.Infrastructure.Handlers;
+using MassTransit;
+using UsersApp.Infrastructure.RabbitMqDTO;
+using AutoMapper;
 
 namespace UsersApp.PostFIOFirstService.Handlers
 {
     public class AcceptUserDataHandler : BaseHandler, IRequestHandler<AcceptUserDataRequestPayload, IActionResult>
     {
         private readonly IValidator<AcceptUserDataRequestPayload> payloadValidator;
+        private readonly IBus bus;
+        private readonly IMapper mapper;
 
-        public AcceptUserDataHandler(IValidator<AcceptUserDataRequestPayload> payloadValidator)
+        public AcceptUserDataHandler(IValidator<AcceptUserDataRequestPayload> payloadValidator, IBus bus, IMapper mapper)
         {
             this.payloadValidator = payloadValidator;
+            this.bus = bus;
+            this.mapper = mapper;
         }
 
         public async Task<IActionResult> Handle(AcceptUserDataRequestPayload requestPayload, CancellationToken cancellationToken)
@@ -27,7 +34,7 @@ namespace UsersApp.PostFIOFirstService.Handlers
             // Если валидация прошла, можно посылать на второй сервис данные.
             Log.Information($"Sending user data to secondService: {requestPayload.ToString()}");
 
-            // Логируем отправку данных
+            await bus.Publish(mapper.Map<CreateUserInDbTaskData>(requestPayload));
 
             // Тут нужно будет отправить данные в шину IBus
             var settedId = 999;

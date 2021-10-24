@@ -1,3 +1,4 @@
+using AutoMapper;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -10,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using System;
 using UsersApp.Infrastructure.Extensions;
+using UsersApp.PostFIOFirstService.Mappings;
 using UsersApp.PostFIOFirstService.RequestPayloads;
 using UsersApp.PostFIOFirstService.Validators;
 
@@ -52,6 +54,15 @@ namespace UsersApp.PostFIOFirstService
             // Валидация
             services.AddTransient<IValidator<AcceptUserDataRequestPayload>, AcceptUserDataValidator>();
             services.AddTransient<IValidator<string>, EmailAddressValidator>();
+
+            // Auto Mapper Configurations
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new UserDataMapperProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -21,7 +21,7 @@ namespace UsersApp.PostFIOFirstService
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Возникла ошибка при запуске сервиса.");
+                Log.Fatal(ex, "Р’РѕР·РЅРёРєР»Р° РѕС€РёР±РєР° РїСЂРё Р·Р°РїСѓСЃРєРµ СЃРµСЂРІРёСЃР°.");
             }
             finally
             {
