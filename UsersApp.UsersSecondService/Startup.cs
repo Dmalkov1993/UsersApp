@@ -1,3 +1,4 @@
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System;
+using UsersApp.Infrastructure.Extensions;
 
 namespace UsersApp.UsersSecondService
 {
@@ -34,6 +37,12 @@ namespace UsersApp.UsersSecondService
                     "“акже можно св€зать пользовател€ и организацию, а также получить пагинированные данные о пользовател€х.",
                 });
             });
+
+            var rabbitMqSection = Configuration.GetSection("RabbitMQ");
+            services.AddDefaultMassTransit(
+                host: rabbitMqSection.GetValue<string>("Host"),
+                username: rabbitMqSection.GetValue("Username", "guest"),
+                password: rabbitMqSection.GetValue("Username", "guest"));
 
             // Nuget пакет - MediatR.Extensions.Microsoft.DependencyInjection
             services.AddMediatR(typeof(Startup));

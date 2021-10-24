@@ -1,4 +1,5 @@
 using FluentValidation;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System;
+using UsersApp.Infrastructure.Extensions;
 using UsersApp.PostFIOFirstService.RequestPayloads;
 using UsersApp.PostFIOFirstService.Validators;
 
@@ -36,6 +39,12 @@ namespace UsersApp.PostFIOFirstService
                     Description = "Служит для приема полезной нагрузки с данными пользователя (имя, фамилия, отчество, номер, email).",
                 });
             });
+
+            var rabbitMqSection = Configuration.GetSection("RabbitMQ");
+            services.AddDefaultMassTransit(
+                host: rabbitMqSection.GetValue<string>("Host"),
+                username: rabbitMqSection.GetValue("Username", "guest"),
+                password: rabbitMqSection.GetValue("Username", "guest"));
 
             // Nuget пакет - MediatR.Extensions.Microsoft.DependencyInjection
             services.AddMediatR(typeof(Startup));
