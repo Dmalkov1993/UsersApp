@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PostFIOFirstService\UsersApp.PostFIOFirstService.csproj" />
     <ProjectReference Include="..\UsersApp.PostFIOFirstService\UsersApp.PostFIOFirstService.csproj" />
   </ItemGroup>
 
