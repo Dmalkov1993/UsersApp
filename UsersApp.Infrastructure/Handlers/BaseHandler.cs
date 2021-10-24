@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation.Results;
 
-namespace UsersApp.PostFIOFirstService.Handlers
+namespace UsersApp.Infrastructure.Handlers
 {
     public abstract class BaseHandler
     {

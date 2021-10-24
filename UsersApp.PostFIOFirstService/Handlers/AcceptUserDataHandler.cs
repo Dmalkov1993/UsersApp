@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UsersApp.PostFIOFirstService.RequestPayloads;
 using FluentValidation;
 using Serilog;
+using UsersApp.Infrastructure.Handlers;
 
 namespace UsersApp.PostFIOFirstService.Handlers
 {
