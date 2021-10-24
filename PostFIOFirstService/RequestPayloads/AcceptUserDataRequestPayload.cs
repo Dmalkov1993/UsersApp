@@ -33,5 +33,14 @@ namespace UsersApp.PostFIOFirstService.RequestPayloads
         /// Email.
         /// </summary>
         public string Email { get; set; }
+
+        public override string ToString()
+        {
+            return $"{nameof(Name)}: {Name}, " +
+                $"{nameof(Surname)}: {Surname}, " +
+                $"{nameof(Patronymic)}: {Patronymic}, " +
+                $"{nameof(PhoneNumber)}: {PhoneNumber}, " +
+                $"{nameof(Email)}: {Email}";
+        }
     }
 }

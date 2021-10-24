@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UsersApp.PostFIOFirstService.RequestPayloads;
 using UsersApp.Infrastructure.Handlers;
 using FluentValidation;
+using Serilog;
 
 namespace UsersApp.PostFIOFirstService.Handlers
 {
@@ -25,6 +26,11 @@ namespace UsersApp.PostFIOFirstService.Handlers
             var validationResult = payloadValidator.Validate(requestPayload);
             if (!validationResult.IsValid)
                 return BadRequest(validationResult);
+
+            // Если валидация прошла, можно посылать на второй сервис данные.
+            Log.Information($"Sending user data to secondService: {requestPayload.ToString()}");
+
+            // Логируем отправку данных
 
             // Тут нужно будет отправить данные в шину IBus
             var settedId = 999;
