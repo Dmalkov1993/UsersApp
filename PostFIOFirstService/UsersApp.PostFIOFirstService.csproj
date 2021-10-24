@@ -8,12 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Users.Infrastructure\Users.Infrastructure.csproj" />
+    <ProjectReference Include="..\Users.Infrastructure\UsersApp.Infrastructure.csproj" />
   </ItemGroup>
 
 

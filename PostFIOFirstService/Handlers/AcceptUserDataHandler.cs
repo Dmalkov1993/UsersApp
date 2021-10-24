@@ -12,9 +12,10 @@ namespace UsersApp.PostFIOFirstService.Handlers
 {
     public class AcceptUserDataHandler : BaseHandler, IRequestHandler<AcceptUserDataRequestPayload, IActionResult>
     {
-        public Task<IActionResult> Handle(AcceptUserDataRequestPayload request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(AcceptUserDataRequestPayload request, CancellationToken cancellationToken)
         {
-
+            // Тут нужно будет отправить данные в шину IBus
+            return Ok("Всё хорошо");
         }
     }
 }

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostFIOFirstService", "PostFIOFirstService\PostFIOFirstService.csproj", "{20A42F00-7952-47BA-A398-C584CA96F4A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsersApp.PostFIOFirstService", "PostFIOFirstService\UsersApp.PostFIOFirstService.csproj", "{20A42F00-7952-47BA-A398-C584CA96F4A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Infrastructure", "Users.Infrastructure\Users.Infrastructure.csproj", "{437DDC11-8460-421A-AF33-1F5757B2F275}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsersApp.Infrastructure", "Users.Infrastructure\UsersApp.Infrastructure.csproj", "{437DDC11-8460-421A-AF33-1F5757B2F275}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
