@@ -7,7 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["UsersApp.PostFIOFirstService/UsersApp.PostFIOFirstService.csproj", "UsersApp.PostFIOFirstService/"]
+COPY ["UsersApp.PostFIOFirstService.csproj", "UsersApp.PostFIOFirstService/"]
 RUN dotnet restore "UsersApp.PostFIOFirstService/UsersApp.PostFIOFirstService.csproj"
 COPY . .
 WORKDIR "/src/UsersApp.PostFIOFirstService"
