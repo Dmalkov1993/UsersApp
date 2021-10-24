@@ -4,7 +4,7 @@ using Serilog;
 using Serilog.Events;
 using System;
 
-namespace UsersApp.PostFIOFirstService
+namespace UsersApp.UsersSecondService
 {
     public class Program
     {
@@ -45,6 +45,5 @@ namespace UsersApp.PostFIOFirstService
                 .WriteTo.Console()
                 .CreateLogger();
         }
-
     }
 }

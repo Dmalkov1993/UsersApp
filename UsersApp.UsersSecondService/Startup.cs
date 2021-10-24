@@ -1,4 +1,3 @@
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,10 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using UsersApp.PostFIOFirstService.RequestPayloads;
-using UsersApp.PostFIOFirstService.Validators;
 
-namespace UsersApp.PostFIOFirstService
+namespace UsersApp.UsersSecondService
 {
     public class Startup
     {
@@ -31,18 +28,14 @@ namespace UsersApp.PostFIOFirstService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "РЎРµСЂРІРёСЃ в„–1",
+                    Title = "Сервис №1",
                     Version = "v1",
-                    Description = "РЎР»СѓР¶РёС‚ РґР»СЏ РїСЂРёРµРјР° РїРѕР»РµР·РЅРѕР№ РЅР°РіСЂСѓР·РєРё СЃ РґР°РЅРЅС‹РјРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ (РёРјСЏ, С„Р°РјРёР»РёСЏ, РѕС‚С‡РµСЃС‚РІРѕ, РЅРѕРјРµСЂ, email).",
+                    Description = "Служит для приема полезной нагрузки с данными пользователя (имя, фамилия, отчество, номер, email).",
                 });
             });
 
-            // Nuget РїР°РєРµС‚ - MediatR.Extensions.Microsoft.DependencyInjection
+            // Nuget пакет - MediatR.Extensions.Microsoft.DependencyInjection
             services.AddMediatR(typeof(Startup));
-
-            // Р’Р°Р»РёРґР°С†РёСЏ
-            services.AddTransient<IValidator<AcceptUserDataRequestPayload>, AcceptUserDataValidator>();
-            services.AddTransient<IValidator<string>, EmailAddressValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
