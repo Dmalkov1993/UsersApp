@@ -1,12 +1,13 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PostFIOFirstService.RequestPayloads
+namespace UsersApp.PostFIOFirstService.RequestPayloads
 {
-    public class AcceptUserDataRequestPayload : IRequest<string>
+    public class AcceptUserDataRequestPayload : IRequest<IActionResult>
     {
         /// <summary>
         /// Имя.

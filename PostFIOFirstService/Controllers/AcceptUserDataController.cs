@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PostFIOFirstService.RequestPayloads;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UsersApp.PostFIOFirstService.RequestPayloads;
 
-namespace PostFIOFirstService.Controllers
+namespace UsersApp.PostFIOFirstService.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -23,7 +23,7 @@ namespace PostFIOFirstService.Controllers
         [Route("AcceptUserData")]
         public async Task<IActionResult> AcceptUserData([FromBody] AcceptUserDataRequestPayload payload)
         {
-            await mediator.Send(payload);
+            return await mediator.Send(payload);
         }
     }
 }
