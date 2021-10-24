@@ -28,9 +28,10 @@ namespace UsersApp.UsersSecondService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Сервис №1",
+                    Title = "Сервис №2",
                     Version = "v1",
-                    Description = "Служит для приема полезной нагрузки с данными пользователя (имя, фамилия, отчество, номер, email).",
+                    Description = "Служит для записи в БД данных пользователя, пришедших из шины RabbitMQ." +
+                    "Также можно связать пользователя и организацию, а также получить пагинированные данные о пользователях.",
                 });
             });
 
@@ -55,7 +56,7 @@ namespace UsersApp.UsersSecondService
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "FirstService");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SecondService");
 
                 // To serve SwaggerUI at application's root page, set the RoutePrefix property to an empty string.
                 c.RoutePrefix = string.Empty;

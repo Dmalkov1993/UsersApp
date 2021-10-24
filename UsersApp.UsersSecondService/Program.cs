@@ -11,7 +11,7 @@ namespace UsersApp.UsersSecondService
         public static void Main(string[] args)
         {
             ConfigureLogger();
-            Log.Information($"Service for accept user data is started at {DateTime.Now}");
+            Log.Information($"User service is started at {DateTime.Now}");
 
             try
             {
