@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
-using UsersApp.PostFIOFirstService.RequestPayloads;
 using FluentValidation;
 using Serilog;
 using UsersApp.Infrastructure.Handlers;
 using MassTransit;
 using UsersApp.Infrastructure.RabbitMqDTO;
 using AutoMapper;
+using UsersApp.Infrastructure.RequestPayloads;
 
 namespace UsersApp.PostFIOFirstService.Handlers
 {
@@ -34,6 +34,7 @@ namespace UsersApp.PostFIOFirstService.Handlers
             // Если валидация прошла, можно посылать на второй сервис данные.
             Log.Information($"Sending user data to secondService: {requestPayload.ToString()}");
 
+            // Проверяем коммуникацию (все хорошо)
             await bus.Publish(mapper.Map<CreateUserInDbTaskData>(requestPayload));
 
             // Тут нужно будет отправить данные в шину IBus

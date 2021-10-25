@@ -1,6 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,10 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using System;
+using UsersApp.Infrastructure.AutomapperProfiles;
 using UsersApp.Infrastructure.Extensions;
-using UsersApp.PostFIOFirstService.Mappings;
-using UsersApp.PostFIOFirstService.RequestPayloads;
+using UsersApp.Infrastructure.RequestPayloads;
 using UsersApp.PostFIOFirstService.Validators;
 
 namespace UsersApp.PostFIOFirstService
@@ -42,6 +40,7 @@ namespace UsersApp.PostFIOFirstService
                 });
             });
 
+            // Зарегистрируем MassTransit просто на подключение, т.к. консьюмеров в данном проекте нет.
             var rabbitMqSection = Configuration.GetSection("RabbitMQ");
             services.AddDefaultMassTransit(
                 host: rabbitMqSection.GetValue<string>("Host"),

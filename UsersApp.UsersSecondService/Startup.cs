@@ -2,25 +2,26 @@ using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System;
-using UsersApp.Infrastructure.Extensions;
+using UsersApp.DAL;
 using UsersApp.UsersSecondService.MassTransitEntities;
 
 namespace UsersApp.UsersSecondService
 {
     public class Startup
     {
+        private readonly IConfiguration configuration;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -39,12 +40,19 @@ namespace UsersApp.UsersSecondService
                 });
             });
 
-            // Настройка кролика
+            services.AddDbContext<UsersAppDbContext>(options =>
+            {
+                var connectionString = configuration.GetConnectionString("UsersAppDbContext");
+                options.UseNpgsql(connectionString, assembly => assembly.MigrationsAssembly("UsersApp.DAL"));
+            });
+
+            // Настройка кролика - экстеншен не подошел, т.к. нам надо зарегать консьюмера.
+            // Можно было передать массив типов консьюмеров, как вариант.
             services.AddMassTransit(configurator =>
             {
                 configurator.UsingRabbitMq((context, factoryConfigurator) =>
                 {
-                    var rabbitMqSection = Configuration.GetSection("RabbitMQ");
+                    var rabbitMqSection = configuration.GetSection("RabbitMQ");
                     factoryConfigurator.Host(new Uri(rabbitMqSection.GetValue<string>("Host")),
                         hostConfigurator =>
                         {
