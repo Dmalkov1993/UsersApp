@@ -12,6 +12,7 @@ using Serilog;
 using System;
 using UsersApp.DAL;
 using UsersApp.Infrastructure.AutomapperProfiles;
+using UsersApp.Infrastructure.RabbitMqDTO;
 using UsersApp.UsersSecondService.MassTransitEntities;
 
 namespace UsersApp.UsersSecondService
@@ -48,10 +49,42 @@ namespace UsersApp.UsersSecondService
                 options.UseNpgsql(connectionString, assembly => assembly.MigrationsAssembly("UsersApp.DAL"));
             });
 
-            // Настройка кролика - экстеншен не подошел, т.к. нам надо зарегать консьюмера.
-            // Можно было передать массив типов консьюмеров, как вариант.
+            /*
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<CreateUserInDbConsumer>();
+
+                x.SetKebabCaseEndpointNameFormatter();
+
+                x.UsingRabbitMq((context, cfg) => cfg.ConfigureEndpoints(context));
+            });
+            */
+
             services.AddMassTransit(configurator =>
             {
+                configurator.AddConsumer<CreateUserInDbConsumer>(/*typeof(CreateUserInDbTaskData)*/);
+
+                configurator.AddBus(busRegistrationContext => Bus.Factory.CreateUsingRabbitMq(buscfg =>
+                {
+                    // (configure host, endpoints, etc)
+                    var rabbitMqSection = configuration.GetSection("RabbitMQ");
+                    buscfg.Host(new Uri(rabbitMqSection.GetValue<string>("Host")),
+                        hostConfigurator =>
+                        {
+                            hostConfigurator.Username(rabbitMqSection.GetValue("Username", "guest"));
+                            hostConfigurator.Password(rabbitMqSection.GetValue("Password", "guest"));
+                        });
+
+                    //buscfg.ReceiveEndpoint("CreateUserInDbQueue",
+                      //  endpointConfigurator => endpointConfigurator.Consumer<CreateUserInDbConsumer>(busRegistrationContext));
+
+                    buscfg.ConfigureEndpoints(busRegistrationContext);
+                    // buscfg.UseLoggingScope(sp.Container); // passes logging scope from a producer to a consumer
+                }));
+
+                /*
+                configurator.AddConsumer<CreateUserInDbConsumer>(typeof(CreateUserInDbTaskData));
+
                 configurator.UsingRabbitMq((context, factoryConfigurator) =>
                 {
                     var rabbitMqSection = configuration.GetSection("RabbitMQ");
@@ -61,20 +94,15 @@ namespace UsersApp.UsersSecondService
                             hostConfigurator.Username(rabbitMqSection.GetValue("Username", "guest"));
                             hostConfigurator.Password(rabbitMqSection.GetValue("Password", "guest"));
                         });
-                    factoryConfigurator.ReceiveEndpoint("CreateUserInDbQueue",
-                        endpointConfigurator => endpointConfigurator.Consumer<CreateUserInDbConsumer>(context));
+                    
+                    // factoryConfigurator.ReceiveEndpoint("CreateUserInDbQueue",
+                       // endpointConfigurator => endpointConfigurator.Consumer<CreateUserInDbConsumer>(context));
+                    
                     factoryConfigurator.ConfigureEndpoints(context);
                 });
+                */
             });
             services.AddMassTransitHostedService();
-
-            /*
-            var rabbitMqSection = Configuration.GetSection("RabbitMQ");
-            services.AddDefaultMassTransit(
-                host: rabbitMqSection.GetValue<string>("Host"),
-                username: rabbitMqSection.GetValue("Username", "guest"),
-                password: rabbitMqSection.GetValue("Username", "guest"));
-            */
 
             // Nuget пакет - MediatR.Extensions.Microsoft.DependencyInjection
             services.AddMediatR(typeof(Startup));
