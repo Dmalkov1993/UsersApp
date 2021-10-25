@@ -1,11 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace UsersApp.PostFIOFirstService.RequestPayloads
+namespace UsersApp.Infrastructure.RequestPayloads
 {
     public class AcceptUserDataRequestPayload : IRequest<IActionResult>
     {

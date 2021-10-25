@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersApp.PostFIOFirstServic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersApp.Infrastructure", "UsersApp.Infrastructure\UsersApp.Infrastructure.csproj", "{E3C714AC-B27B-440E-9459-741A299560DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsersApp.UsersSecondService", "UsersApp.UsersSecondService\UsersApp.UsersSecondService.csproj", "{7C47DE7D-51FD-4D1B-AA6D-CC764247A257}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersApp.UsersSecondService", "UsersApp.UsersSecondService\UsersApp.UsersSecondService.csproj", "{7C47DE7D-51FD-4D1B-AA6D-CC764247A257}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsersApp.DAL", "UsersApp.DAL\UsersApp.DAL.csproj", "{A9EEFB92-212B-42CF-9D4A-CFF7DA13C6F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7C47DE7D-51FD-4D1B-AA6D-CC764247A257}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C47DE7D-51FD-4D1B-AA6D-CC764247A257}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C47DE7D-51FD-4D1B-AA6D-CC764247A257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9EEFB92-212B-42CF-9D4A-CFF7DA13C6F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9EEFB92-212B-42CF-9D4A-CFF7DA13C6F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9EEFB92-212B-42CF-9D4A-CFF7DA13C6F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9EEFB92-212B-42CF-9D4A-CFF7DA13C6F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

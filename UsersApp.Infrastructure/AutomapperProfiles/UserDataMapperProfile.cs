@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UsersApp.Infrastructure.RabbitMqDTO;
-using UsersApp.PostFIOFirstService.RequestPayloads;
+using UsersApp.Infrastructure.RequestPayloads;
 
-namespace UsersApp.PostFIOFirstService.Mappings
+namespace UsersApp.Infrastructure.AutomapperProfiles
 {
     public class UserDataMapperProfile : Profile
     {

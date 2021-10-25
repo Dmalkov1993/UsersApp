@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using UsersApp.PostFIOFirstService.RequestPayloads;
+using UsersApp.Infrastructure.RequestPayloads;
 using UsersApp.PostFIOFirstService.Validators;
 
 namespace UsersApp.UnitTests.PayloadValidatorsTests

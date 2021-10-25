@@ -4,7 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UsersApp.Infrastructure.Handlers;
-using UsersApp.UsersSecondService.RequestPayloads;
+using UsersApp.Infrastructure.RequestPayloads;
 
 namespace UsersApp.UsersSecondService.Handlers
 {

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using UsersApp.UsersSecondService.RequestPayloads;
+using UsersApp.Infrastructure.RequestPayloads;
 
 namespace UsersApp.UsersSecondService.Controllers
 {
