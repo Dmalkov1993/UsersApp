@@ -57,7 +57,6 @@ namespace UsersApp.UsersSecondService
                 {
                     var bus = Bus.Factory.CreateUsingRabbitMq(buscfg =>
                     {
-                        // (configure host, endpoints, etc)
                         var rabbitMqSection = configuration.GetSection("RabbitMQ") ;
                         buscfg.Host(new Uri(rabbitMqSection.GetValue<string>("Host")),
                             hostConfigurator =>
@@ -66,34 +65,11 @@ namespace UsersApp.UsersSecondService
                                 hostConfigurator.Password(rabbitMqSection.GetValue("Password", "guest"));
                             });
 
-                        // buscfg.ReceiveEndpoint("CreateUserInDbQueue",
-                        //    endpointConfigurator => endpointConfigurator.Consumer<CreateUserInDbConsumer>(busRegistrationContext));
-
                         buscfg.ConfigureEndpoints(busRegistrationContext);
                     });
 
                     return bus;
                 });
-
-                /*
-                configurator.AddConsumer<CreateUserInDbConsumer>(typeof(CreateUserInDbTaskData));
-
-                configurator.UsingRabbitMq((context, factoryConfigurator) =>
-                {
-                    var rabbitMqSection = configuration.GetSection("RabbitMQ");
-                    factoryConfigurator.Host(new Uri(rabbitMqSection.GetValue<string>("Host")),
-                        hostConfigurator =>
-                        {
-                            hostConfigurator.Username(rabbitMqSection.GetValue("Username", "guest"));
-                            hostConfigurator.Password(rabbitMqSection.GetValue("Password", "guest"));
-                        });
-                    
-                    // factoryConfigurator.ReceiveEndpoint("CreateUserInDbQueue",
-                       // endpointConfigurator => endpointConfigurator.Consumer<CreateUserInDbConsumer>(context));
-                    
-                    factoryConfigurator.ConfigureEndpoints(context);
-                });
-                */
             });
             services.AddMassTransitHostedService();
 
