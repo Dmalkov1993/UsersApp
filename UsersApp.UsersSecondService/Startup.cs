@@ -49,38 +49,31 @@ namespace UsersApp.UsersSecondService
                 options.UseNpgsql(connectionString, assembly => assembly.MigrationsAssembly("UsersApp.DAL"));
             });
 
-            /*
-            services.AddMassTransit(x =>
-            {
-                x.AddConsumer<CreateUserInDbConsumer>();
-
-                x.SetKebabCaseEndpointNameFormatter();
-
-                x.UsingRabbitMq((context, cfg) => cfg.ConfigureEndpoints(context));
-            });
-            */
-
             services.AddMassTransit(configurator =>
             {
-                configurator.AddConsumer<CreateUserInDbConsumer>(/*typeof(CreateUserInDbTaskData)*/);
+                configurator.AddConsumer<CreateUserInDbConsumer>();
 
-                configurator.AddBus(busRegistrationContext => Bus.Factory.CreateUsingRabbitMq(buscfg =>
+                configurator.AddBus(busRegistrationContext =>
                 {
-                    // (configure host, endpoints, etc)
-                    var rabbitMqSection = configuration.GetSection("RabbitMQ");
-                    buscfg.Host(new Uri(rabbitMqSection.GetValue<string>("Host")),
-                        hostConfigurator =>
-                        {
-                            hostConfigurator.Username(rabbitMqSection.GetValue("Username", "guest"));
-                            hostConfigurator.Password(rabbitMqSection.GetValue("Password", "guest"));
-                        });
+                    var bus = Bus.Factory.CreateUsingRabbitMq(buscfg =>
+                    {
+                        // (configure host, endpoints, etc)
+                        var rabbitMqSection = configuration.GetSection("RabbitMQ") ;
+                        buscfg.Host(new Uri(rabbitMqSection.GetValue<string>("Host")),
+                            hostConfigurator =>
+                            {
+                                hostConfigurator.Username(rabbitMqSection.GetValue("Username", "guest"));
+                                hostConfigurator.Password(rabbitMqSection.GetValue("Password", "guest"));
+                            });
 
-                    //buscfg.ReceiveEndpoint("CreateUserInDbQueue",
-                      //  endpointConfigurator => endpointConfigurator.Consumer<CreateUserInDbConsumer>(busRegistrationContext));
+                        // buscfg.ReceiveEndpoint("CreateUserInDbQueue",
+                        //    endpointConfigurator => endpointConfigurator.Consumer<CreateUserInDbConsumer>(busRegistrationContext));
 
-                    buscfg.ConfigureEndpoints(busRegistrationContext);
-                    // buscfg.UseLoggingScope(sp.Container); // passes logging scope from a producer to a consumer
-                }));
+                        buscfg.ConfigureEndpoints(busRegistrationContext);
+                    });
+
+                    return bus;
+                });
 
                 /*
                 configurator.AddConsumer<CreateUserInDbConsumer>(typeof(CreateUserInDbTaskData));
