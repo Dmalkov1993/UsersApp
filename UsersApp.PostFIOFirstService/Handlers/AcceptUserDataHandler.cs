@@ -27,9 +27,10 @@ namespace UsersApp.PostFIOFirstService.Handlers
 
         public async Task<IActionResult> Handle(AcceptUserDataRequestPayload requestPayload, CancellationToken cancellationToken)
         {
-            var validationResult = payloadValidator.Validate(requestPayload);
+            /* var validationResult = payloadValidator.Validate(requestPayload);
             if (!validationResult.IsValid)
                 return BadRequest(validationResult);
+            */
 
             // Если валидация прошла, можно посылать на второй сервис данные.
             Log.Information($"Sending user data to secondService: {requestPayload.ToString()}");
