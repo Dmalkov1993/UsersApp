@@ -1,3 +1,4 @@
+using AutoMapper;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using System;
 using UsersApp.DAL;
+using UsersApp.Infrastructure.AutomapperProfiles;
 using UsersApp.UsersSecondService.MassTransitEntities;
 
 namespace UsersApp.UsersSecondService
@@ -60,7 +62,7 @@ namespace UsersApp.UsersSecondService
                             hostConfigurator.Password(rabbitMqSection.GetValue("Password", "guest"));
                         });
                     factoryConfigurator.ReceiveEndpoint("CreateUserInDbQueue",
-                        endpointConfigurator => endpointConfigurator.Consumer<CreateUserInDbConsumer>());
+                        endpointConfigurator => endpointConfigurator.Consumer<CreateUserInDbConsumer>(context));
                     factoryConfigurator.ConfigureEndpoints(context);
                 });
             });
@@ -76,6 +78,17 @@ namespace UsersApp.UsersSecondService
 
             // Nuget пакет - MediatR.Extensions.Microsoft.DependencyInjection
             services.AddMediatR(typeof(Startup));
+
+            // Auto Mapper Configurations
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new UserDataMapperProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddScoped<UsersAppDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
